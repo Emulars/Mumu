@@ -107,33 +107,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initBook(data) {
         book.innerHTML = '';
-        // Ensure we have even number of pages for the book structure (front/back)
-        // Actually, each "sheet" has a front and back.
-        // The data array represents "faces". 
-        // Sheet 1: Front (Cover), Back (Page 1)
-        // Sheet 2: Front (Page 2), Back (Page 3)
-        // ...
-        
-        // Let's reorganize data into sheets.
-        // If data has N items.
-        // Item 0 is Cover Front.
-        // Item 1 is Cover Back (usually empty or dedication).
-        // Item 2 is Page 1 Front.
-        // Item 3 is Page 1 Back.
-        
-        // To make it simple, let's treat each item in data as a "Face".
-        // We need to pair them up into Sheets.
-        
         const pages = [];
-        // Add a blank end page if odd number of faces
+        
+        // Ensure even number of faces
         if (data.length % 2 !== 0) {
             data.push({ type: "blank", text: "" });
         }
 
+        // Create sheets
         for (let i = 0; i < data.length; i += 2) {
             const sheet = document.createElement('div');
             sheet.classList.add('page');
-            sheet.style.zIndex = data.length - i; // Stack order
+            // Initial Z-Index: Higher for earlier pages
+            sheet.style.zIndex = (data.length / 2) - (i / 2);
             
             const frontData = data[i];
             const backData = data[i+1];
@@ -146,16 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Click to flip
             sheet.addEventListener('click', () => {
-                if (sheet.classList.contains('flipped')) {
-                    // Flip back (only if it's the top of the left stack)
-                    // We handle z-index dynamically or just rely on order
-                    sheet.classList.remove('flipped');
-                    sheet.style.zIndex = data.length - i;
-                } else {
-                    // Flip forward
-                    sheet.classList.add('flipped');
-                    sheet.style.zIndex = i + 1; // Move to top of left stack (simplified)
-                }
+                handlePageFlip(sheet, i, data.length);
             });
 
             book.appendChild(sheet);
@@ -163,6 +140,118 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         totalPages = pages.length;
+        updateSunflower(0); // Initialize sunflower
+    }
+
+    function handlePageFlip(sheet, index, totalFaces) {
+        const sheetIndex = index / 2;
+        const totalSheets = totalFaces / 2;
+
+        if (sheet.classList.contains('flipped')) {
+            // Flip BACK (Left to Right)
+            // Only allow flipping back if it's the top-most flipped page
+            const nextSheet = sheet.nextElementSibling;
+            if (nextSheet && nextSheet.classList.contains('flipped')) {
+                return; 
+            }
+
+            sheet.classList.add('flipping'); 
+            sheet.classList.remove('flipped');
+            
+            // If closing the first page, center the book back
+            if (sheetIndex === 0) {
+                book.classList.remove('open');
+            }
+
+            // Update progress
+            updateSunflower(sheetIndex / totalSheets);
+
+            setTimeout(() => {
+                sheet.classList.remove('flipping');
+                sheet.style.zIndex = totalSheets - sheetIndex;
+            }, 600); 
+
+        } else {
+            // Flip FORWARD (Right to Left)
+            const prevSheet = sheet.previousElementSibling;
+            if (prevSheet && !prevSheet.classList.contains('flipped')) {
+                return;
+            }
+
+            sheet.classList.add('flipping');
+            sheet.classList.add('flipped');
+            
+            // If opening the first page, shift book to center spine
+            if (sheetIndex === 0) {
+                book.classList.add('open');
+            }
+
+            // Update progress
+            updateSunflower((sheetIndex + 1) / totalSheets);
+
+            setTimeout(() => {
+                sheet.classList.remove('flipping');
+                sheet.style.zIndex = 100 + sheetIndex; 
+            }, 600);
+        }
+    }
+
+    function updateSunflower(progress) {
+        // progress is 0.0 to 1.0
+        
+        // 1. Grass grows first (0% to 20%)
+        const grass = document.getElementById('grass');
+        let grassScale = 0;
+        if (progress > 0) {
+            grassScale = Math.min(progress * 5, 1);
+        }
+        grass.style.transform = `scale(1, ${grassScale})`;
+
+        // 2. Stems grow (10% to 50%)
+        const stems = document.querySelectorAll('.stem');
+        let stemProgress = 0;
+        if (progress > 0.1) {
+            stemProgress = Math.min((progress - 0.1) * 2.5, 1);
+        }
+        const dashOffset = 300 - (300 * stemProgress);
+        stems.forEach(stem => stem.style.strokeDashoffset = dashOffset);
+
+        // 3. Leaves appear (30% to 70%)
+        const leaves = document.querySelectorAll('.leaves');
+        let leafScale = 0;
+        if (progress > 0.3) {
+            leafScale = Math.min((progress - 0.3) * 2.5, 1);
+        }
+        leaves.forEach(leaf => leaf.style.transform = `scale(${leafScale})`);
+
+        // 4. Flower heads bloom (50% to 100%)
+        // We animate center and petals separately for a "blooming" effect
+        const centers = document.querySelectorAll('.flower-center');
+        const petalsGroups = document.querySelectorAll('.flower-petals');
+        
+        let centerScale = 0;
+        let petalsScale = 0;
+        let rotation = 0;
+
+        // Center grows first (50% to 80%)
+        if (progress > 0.5) {
+            centerScale = Math.min((progress - 0.5) * 3.33, 1);
+        }
+
+        // Petals bloom out (60% to 100%)
+        if (progress > 0.6) {
+            petalsScale = Math.min((progress - 0.6) * 2.5, 1);
+            // Add a slight rotation as it blooms
+            rotation = (progress - 0.6) * 100; // 0 to 40 degrees
+        }
+
+        centers.forEach(center => {
+            center.style.transform = `scale(${centerScale})`;
+        });
+
+        petalsGroups.forEach(group => {
+            group.style.transform = `scale(${petalsScale}) rotate(${rotation}deg)`;
+        });
     }
 
     function createFace(data, side) {

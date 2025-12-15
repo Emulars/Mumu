@@ -1,16 +1,19 @@
 :root {
-    --bg-color: #fce4ec;
-    --book-cover: #880e4f;
-    --page-bg: #fff9c4; /* Creamy paper color */
-    --text-color: #4a4a4a;
-    --accent-color: #c2185b;
+    --bg-color: #1a1a1a; /* Dark background to make the book pop */
+    --book-cover: #5d4037; /* Leather brown */
+    --book-cover-accent: #3e2723; /* Darker leather */
+    --page-bg: #f4e4bc; /* Aged parchment */
+    --text-color: #2c1810; /* Dark brown ink */
+    --accent-color: #8d6e63; /* Soft brown accent */
+    --gold-accent: #ffd700;
 }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Lora', serif;
+    font-family: 'Cormorant Garamond', serif;
     background-color: var(--bg-color);
+    background-image: radial-gradient(circle at center, #2a2a2a 0%, #000000 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +28,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,42 +38,69 @@ body {
 
 .login-container {
     text-align: center;
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    border: 2px solid var(--bg-color);
+    background: #f4e4bc;
+    padding: 3rem;
+    border-radius: 2px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5), inset 0 0 60px rgba(0,0,0,0.1);
+    border: 1px solid #d7ccc8;
+    max-width: 400px;
+    position: relative;
+}
+
+/* Add a border effect to login */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 2px solid var(--text-color);
+    pointer-events: none;
 }
 
 h1 {
-    font-family: 'Dancing Script', cursive;
-    color: var(--accent-color);
-    font-size: 3rem;
+    font-family: 'Cinzel', serif;
+    color: var(--text-color);
+    font-size: 2.5rem;
     margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
+    padding: 12px;
+    border: none;
+    border-bottom: 2px solid var(--text-color);
+    background: transparent;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
     outline: none;
+    color: var(--text-color);
+    text-align: center;
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+input::placeholder {
+    color: rgba(44, 24, 16, 0.5);
 }
 
 button {
-    padding: 10px 20px;
-    background-color: var(--accent-color);
-    color: white;
+    padding: 12px 30px;
+    background-color: var(--text-color);
+    color: var(--page-bg);
     border: none;
-    border-radius: 5px;
+    border-radius: 2px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.3s;
-    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 button:hover {
     background-color: var(--book-cover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .hidden {
@@ -85,18 +115,29 @@ button:hover {
 
 /* Book Styles */
 #book-container {
-    perspective: 1500px;
+    perspective: 2000px; /* Increased perspective for better mobile view */
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 10;
 }
 
 .book {
     position: relative;
-    width: 300px; /* Mobile first-ish, but fixed for book effect */
-    height: 450px;
+    width: 45vw; /* Adjusted for mobile to fit open state */
+    height: 65vw;
+    max-width: 400px;
+    max-height: 600px;
     transform-style: preserve-3d;
-    transition: transform 0.5s;
+    transition: transform 1s ease-in-out; /* Smooth centering */
+}
+
+.book.open {
+    transform: translateX(50%);
 }
 
 @media (min-width: 768px) {
@@ -104,6 +145,59 @@ button:hover {
         width: 400px;
         height: 600px;
     }
+}
+
+/* Background Scene */
+#background-scene {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    opacity: 0.6; /* Subtle background */
+}
+
+#scene-svg {
+    height: 100%;
+    width: 100%;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+
+#grass {
+    transform-origin: bottom;
+    transition: transform 1s ease-out;
+}
+
+.stem {
+    transition: stroke-dashoffset 1s ease-out;
+}
+
+.leaves {
+    transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-box: fill-box;
+    transform-origin: center bottom;
+}
+
+.head {
+    /* No transition here, we handle children */
+}
+
+.flower-center {
+    transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+.flower-petals {
+    transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center;
+    transform-box: fill-box;
 }
 
 .page {
@@ -114,10 +208,12 @@ button:hover {
     left: 0;
     transform-origin: left center;
     transform-style: preserve-3d;
-    transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1); /* Slower, smoother flip */
     background-color: var(--page-bg);
-    box-shadow: inset 0 0 30px rgba(0,0,0,0.1), 0 0 10px rgba(0,0,0,0.1);
-    border-radius: 0 5px 5px 0;
+    /* Realistic paper texture and shadow */
+    background-image: linear-gradient(to right, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0) 95%, rgba(0,0,0,0.15) 100%);
+    box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.1), 5px 0 15px rgba(0,0,0,0.2);
+    border-radius: 0 3px 3px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -130,6 +226,12 @@ button:hover {
 
 .page.flipped {
     transform: rotateY(-180deg);
+    box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.1), -5px 0 15px rgba(0,0,0,0.2);
+}
+
+/* Z-Index helper class for animation */
+.page.flipping {
+    z-index: 100 !important;
 }
 
 /* Front of the page */
@@ -144,7 +246,7 @@ button:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 3rem 2rem;
     box-sizing: border-box;
 }
 
@@ -155,65 +257,101 @@ button:hover {
 .back {
     transform: rotateY(180deg);
     z-index: 1;
-    background-color: #fff59d; /* Slightly darker for back */
+    background-color: var(--page-bg);
+    background-image: linear-gradient(to left, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0) 95%, rgba(0,0,0,0.15) 100%);
 }
 
 /* Cover */
 .page:first-child {
     background-color: var(--book-cover);
-    color: white;
-    border-radius: 5px 5px 5px 5px;
+    /* Leather texture effect */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+    color: var(--gold-accent);
+    border-radius: 3px 5px 5px 3px;
+    box-shadow: inset 4px 0 10px rgba(0,0,0,0.5), 10px 10px 30px rgba(0,0,0,0.6);
+    border-left: 5px solid #3e2723; /* Spine */
 }
 
 .page:first-child .front {
-    border: 2px solid #ffd700;
-    margin: 10px;
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
+    border: 3px double var(--gold-accent);
+    margin: 15px;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.page:first-child h2 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3rem;
-    color: #ffd700;
+.page:first-child .front h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    color: transparent;
+    background: linear-gradient(45deg, #ffd700, #f0e68c, #ffd700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.page:first-child .front p {
+    color: #d7ccc8;
+    font-style: italic;
+    margin-top: 20px;
 }
 
 /* Content Styling */
 .page h2 {
-    font-family: 'Dancing Script', cursive;
-    color: var(--accent-color);
-    font-size: 2.5rem;
+    font-family: 'Cinzel', serif;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(44, 24, 16, 0.3);
+    padding-bottom: 10px;
+    width: 80%;
 }
 
 .page p {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1.2rem;
+    line-height: 1.8;
     color: var(--text-color);
+    font-weight: 500;
 }
 
 .page img {
-    max-width: 80%;
-    max-height: 50%;
-    border: 5px solid white;
+    max-width: 85%;
+    max-height: 45%;
+    border: 8px solid white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    transform: rotate(-3deg);
-    margin-bottom: 1rem;
+    transform: rotate(-2deg);
+    margin-bottom: 1.5rem;
+    filter: sepia(30%) contrast(90%); /* Vintage photo effect */
+    transition: transform 0.3s;
+}
+
+.page img:hover {
+    transform: rotate(0deg) scale(1.02);
 }
 
 /* Controls */
 .controls {
-    margin-top: 20px;
+    margin-top: 40px;
     z-index: 10;
 }
 
 .controls button {
-    margin: 0 10px;
-    background: rgba(255,255,255,0.8);
-    color: var(--accent-color);
-    border: 1px solid var(--accent-color);
+    margin: 0 15px;
+    background: transparent;
+    color: #d7ccc8;
+    border: 1px solid #d7ccc8;
+    font-size: 0.9rem;
+    padding: 8px 20px;
 }
 
 .controls button:hover {
-    background: var(--accent-color);
-    color: white;
+    background: #d7ccc8;
+    color: var(--bg-color);
+    box-shadow: 0 0 15px rgba(215, 204, 200, 0.3);
 }

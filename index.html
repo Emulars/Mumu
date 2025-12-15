@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Story</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
@@ -19,6 +19,102 @@
             <button id="login-btn">Open Heart</button>
             <p id="error-msg" class="hidden">Wrong password, try again ❤️</p>
         </div>
+    </div>
+
+    <!-- Background Animation -->
+    <div id="background-scene">
+        <svg id="scene-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+            <defs>
+                <g id="flower-def">
+                    <g class="petals">
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(0)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(30)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(60)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(90)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(120)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(150)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(180)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(210)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(240)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(270)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(300)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(330)" />
+                    </g>
+                    <circle cx="0" cy="0" r="12" fill="#5d4037" />
+                </g>
+            </defs>
+
+            <!-- Grass Field -->
+            <g id="grass" transform="scale(1, 0)">
+                <rect x="-100" y="380" width="600" height="50" fill="#2e7d32" />
+                <path d="M-50 380 
+                         L-40 360 L-30 380 L-20 355 L-10 380 
+                         L0 365 L10 380 L20 350 L30 380 
+                         L40 360 L50 380 L60 355 L70 380 
+                         L80 365 L90 380 L100 350 L110 380 
+                         L120 360 L130 380 L140 355 L150 380 
+                         L160 365 L170 380 L180 350 L190 380 
+                         L200 360 L210 380 L220 355 L230 380 
+                         L240 365 L250 380 L260 350 L270 380 
+                         L280 360 L290 380 L300 355 L310 380 
+                         L320 365 L330 380 L340 350 L350 380 
+                         L360 360 L370 380 L380 355 L390 380 
+                         L400 365 L410 380 L420 350 L430 380 
+                         L440 360 L450 380" fill="#388e3c" />
+            </g>
+
+            <!-- Sunflower 1 (Left) -->
+            <g id="sf1">
+                <path class="stem" d="M100 400 Q 90 350 100 280" stroke="#4caf50" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="300" stroke-dashoffset="300" />
+                <g class="leaves" transform="scale(0)">
+                    <path d="M100 320 Q 70 300 60 280 Q 80 290 100 310" fill="#4caf50" />
+                    <path d="M100 280 Q 130 260 140 240 Q 120 250 100 270" fill="#4caf50" />
+                </g>
+                <g class="head" transform="translate(100, 280)">
+                    <g class="flower-petals" transform="scale(0)">
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(0)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(30)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(60)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(90)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(120)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(150)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(180)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(210)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(240)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(270)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(300)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(330)" />
+                    </g>
+                    <circle class="flower-center" cx="0" cy="0" r="12" fill="#5d4037" transform="scale(0)" />
+                </g>
+            </g>
+
+            <!-- Sunflower 2 (Right) -->
+            <g id="sf2">
+                <path class="stem" d="M300 400 Q 310 350 300 260" stroke="#4caf50" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="300" stroke-dashoffset="300" />
+                <g class="leaves" transform="scale(0)">
+                    <path d="M300 330 Q 270 310 260 290 Q 280 300 300 320" fill="#4caf50" />
+                    <path d="M300 270 Q 330 250 340 230 Q 320 240 300 260" fill="#4caf50" />
+                </g>
+                <g class="head" transform="translate(300, 260)">
+                    <g class="flower-petals" transform="scale(0)">
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(0)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(30)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(60)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(90)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(120)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(150)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(180)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(210)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(240)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(270)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(300)" />
+                        <path d="M0 0 Q -8 -30 0 -40 Q 8 -30 0 0" fill="#ffeb3b" transform="rotate(330)" />
+                    </g>
+                    <circle class="flower-center" cx="0" cy="0" r="12" fill="#5d4037" transform="scale(0)" />
+                </g>
+            </g>
+        </svg>
     </div>
 
     <!-- Book Container -->
