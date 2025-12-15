@@ -140,6 +140,10 @@ button:hover {
     transform: translateX(50%);
 }
 
+.book.view-back {
+    transform: translateX(100%);
+}
+
 @media (min-width: 768px) {
     .book {
         width: 400px;
@@ -302,6 +306,42 @@ button:hover {
     margin-top: 20px;
 }
 
+/* Back Cover */
+.back-cover-face {
+    background-color: var(--book-cover);
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+    color: var(--gold-accent);
+    border: 3px double var(--gold-accent);
+    margin: 15px;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Ensure it covers the page background */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.back-cover-face h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: var(--gold-accent);
+    opacity: 0.8;
+}
+
+.end-paper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    color: rgba(44, 24, 16, 0.5);
+}
+
 /* Content Styling */
 .page h2 {
     font-family: 'Cinzel', serif;
@@ -339,19 +379,75 @@ button:hover {
 .controls {
     margin-top: 40px;
     z-index: 10;
+    display: flex;
+    gap: 40px;
 }
 
-.controls button {
-    margin: 0 15px;
+.nav-btn {
     background: transparent;
-    color: #d7ccc8;
-    border: 1px solid #d7ccc8;
-    font-size: 0.9rem;
-    padding: 8px 20px;
+    color: #d7ccc8; /* Light brown/parchment color */
+    border: none;
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    padding: 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    opacity: 0.7;
 }
 
-.controls button:hover {
-    background: #d7ccc8;
-    color: var(--bg-color);
-    box-shadow: 0 0 15px rgba(215, 204, 200, 0.3);
+.nav-btn:hover {
+    color: var(--gold-accent);
+    transform: scale(1.1);
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    background: transparent; /* Ensure no background on hover */
+    box-shadow: none; /* Remove box shadow from previous style */
 }
+
+.arrow {
+    font-size: 1.5rem;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+#prev-btn:hover .arrow {
+    transform: translateX(-5px);
+}
+
+#next-btn:hover .arrow {
+    transform: translateX(5px);
+}
+ 
+ / *   H e a r t s   A n i m a t i o n   * /  
+ # h e a r t s - c o n t a i n e r   {  
+         p o s i t i o n :   f i x e d ;  
+         t o p :   0 ;  
+         l e f t :   0 ;  
+         w i d t h :   1 0 0 % ;  
+         h e i g h t :   1 0 0 % ;  
+         p o i n t e r - e v e n t s :   n o n e ;  
+         z - i n d e x :   5 ;   / *   B e h i n d   b o o k   ( 1 0 )   b u t   a b o v e   b a c k g r o u n d   ( 1 )   * /  
+         o v e r f l o w :   h i d d e n ;  
+ }  
+  
+ . h e a r t   {  
+         p o s i t i o n :   a b s o l u t e ;  
+         t o p :   - 5 0 p x ;  
+         c o l o r :   # e 9 1 e 6 3 ;   / *   P i n k / R e d   * /  
+         o p a c i t y :   0 . 8 ;  
+         a n i m a t i o n :   f a l l   l i n e a r   f o r w a r d s ;  
+         t e x t - s h a d o w :   0   0   5 p x   r g b a ( 2 3 3 ,   3 0 ,   9 9 ,   0 . 5 ) ;  
+ }  
+  
+ @ k e y f r a m e s   f a l l   {  
+         t o   {  
+                 t r a n s f o r m :   t r a n s l a t e Y ( 1 1 0 v h )   r o t a t e ( 3 6 0 d e g ) ;  
+         }  
+ }  
+ 

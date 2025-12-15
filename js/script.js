@@ -109,10 +109,15 @@ document.addEventListener('DOMContentLoaded', () => {
         book.innerHTML = '';
         const pages = [];
         
-        // Ensure even number of faces
-        if (data.length % 2 !== 0) {
-            data.push({ type: "blank", text: "" });
+        // Add Back Cover
+        // We ensure the last face is the back cover (Back side of the last sheet)
+        if (data.length % 2 === 0) {
+            // Even number of faces. Next is Front.
+            // Add a blank "End Paper" for the inside of the back cover
+            data.push({ type: "page", text: "The End", isEndPaper: true });
         }
+        // Now length is odd. Next is Back.
+        data.push({ type: "back-cover" });
 
         // Create sheets
         for (let i = 0; i < data.length; i += 2) {
@@ -162,6 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (sheetIndex === 0) {
                 book.classList.remove('open');
             }
+            // If opening the last page (from back), shift book to center spine
+            if (sheetIndex === totalSheets - 1) {
+                book.classList.add('open');
+                book.classList.remove('view-back');
+            }
 
             // Update progress
             updateSunflower(sheetIndex / totalSheets);
@@ -184,6 +194,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // If opening the first page, shift book to center spine
             if (sheetIndex === 0) {
                 book.classList.add('open');
+            }
+            // If closing the last page (to back), center the book back
+            if (sheetIndex === totalSheets - 1) {
+                book.classList.remove('open');
+                book.classList.add('view-back');
             }
 
             // Update progress
@@ -267,7 +282,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 p.textContent = data.text;
                 div.appendChild(p);
             }
+        } else if (data.type === 'back-cover') {
+            div.classList.add('back-cover-face');
+            const h2 = document.createElement('h2');
+            h2.innerHTML = "Made with &hearts;";
+            div.appendChild(h2);
         } else if (data.type === 'page') {
+            if (data.isEndPaper) {
+                div.classList.add('end-paper');
+            }
             if (data.title) {
                 const h2 = document.createElement('h2');
                 h2.textContent = data.title;
