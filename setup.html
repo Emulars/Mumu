@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Setup Tool</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        textarea { width: 100%; height: 300px; font-family: monospace; }
+        input { padding: 10px; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
+        button { padding: 10px 20px; background: #c2185b; color: white; border: none; cursor: pointer; }
+        .output { background: #f0f0f0; padding: 10px; word-break: break-all; margin-top: 20px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Setup Your Story</h1>
+    <p>1. Edit the JSON below with your own story steps.</p>
+    <textarea id="json-input">
+[
+    {
+        "type": "cover",
+        "title": "Our Love Story",
+        "text": "A journey of a thousand miles begins with a single step..."
+    },
+    {
+        "type": "page",
+        "title": "The Beginning",
+        "text": "Do you remember the first time we met? The world stopped for a moment.",
+        "image": "https://via.placeholder.com/300x200/ffcdd2/880e4f?text=First+Meeting"
+    },
+    {
+        "type": "page",
+        "title": "Our First Date",
+        "text": "The coffee was hot, but your smile was warmer.",
+        "image": "https://via.placeholder.com/300x200/f8bbd0/880e4f?text=Coffee+Date"
+    },
+    {
+        "type": "page",
+        "title": "Adventures",
+        "text": "Every trip with you is a new favorite memory.",
+        "image": "https://via.placeholder.com/300x200/e1bee7/4a148c?text=Adventure"
+    },
+    {
+        "type": "page",
+        "title": "Forever",
+        "text": "I can't wait to see what the future holds for us. I love you.",
+        "image": "https://via.placeholder.com/300x200/d1c4e9/311b92?text=Forever"
+    }
+]
+    </textarea>
+    
+    <p>2. Enter a password to protect it.</p>
+    <input type="password" id="password" placeholder="Enter a secret password">
+    
+    <button onclick="generate()">Generate Encrypted Code</button>
+    
+    <div id="result" class="output" style="display:none;">
+        <h3>Result:</h3>
+        <p>Copy the code below and paste it into <strong>js/content.js</strong> replacing the existing line.</p>
+        <code id="output-code"></code>
+    </div>
+
+    <script>
+        function generate() {
+            const json = document.getElementById('json-input').value;
+            const password = document.getElementById('password').value;
+            
+            if (!password) {
+                alert("Please enter a password");
+                return;
+            }
+
+            try {
+                // Validate JSON
+                JSON.parse(json);
+                
+                // Encrypt
+                const encrypted = CryptoJS.AES.encrypt(json, password).toString();
+                
+                const output = `const encryptedStory = "${encrypted}";`;
+                
+                document.getElementById('output-code').textContent = output;
+                document.getElementById('result').style.display = 'block';
+                
+            } catch (e) {
+                alert("Invalid JSON! Please check your syntax.");
+            }
+        }
+    </script>
+</body>
+</html>

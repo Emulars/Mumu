@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="login-container">
+            <h1>For My Love</h1>
+            <p>Please enter the magic word</p>
+            <input type="password" id="password-input" placeholder="Password">
+            <button id="login-btn">Open Heart</button>
+            <p id="error-msg" class="hidden">Wrong password, try again ❤️</p>
+        </div>
+    </div>
+
+    <!-- Book Container -->
+    <div id="book-container" class="hidden">
+        <div class="book" id="book">
+            <!-- Pages will be injected here by JS -->
+        </div>
+        
+        <div class="controls">
+            <button id="prev-btn">Previous</button>
+            <button id="next-btn">Next</button>
+        </div>
+    </div>
+
+    <script src="js/content.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
