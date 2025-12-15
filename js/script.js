@@ -333,4 +333,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Hearts Animation
+    function createHeart() {
+        const heartsContainer = document.getElementById('hearts-container');
+        if (!heartsContainer) return;
+
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤';
+        
+        // Randomize position and animation properties
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = Math.random() * 3 + 5 + 's'; // 5-8 seconds
+        heart.style.fontSize = Math.random() * 20 + 10 + 'px'; // 10-30px
+        
+        heartsContainer.appendChild(heart);
+        
+        // Remove heart after animation
+        setTimeout(() => {
+            heart.remove();
+        }, 8000);
+    }
+
+    // Create hearts periodically
+    setInterval(createHeart, 500);
 });
