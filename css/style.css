@@ -178,6 +178,11 @@ button:hover {
     transition: transform 1s ease-out;
 }
 
+#small-sunflowers {
+    transform-origin: bottom;
+    transition: transform 1s ease-out;
+}
+
 .stem {
     transition: stroke-dashoffset 1s ease-out;
 }

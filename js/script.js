@@ -8,6 +8,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
 
+    // Initialize small sunflowers with random order
+    const smallSunflowersGroup = document.getElementById('small-sunflowers');
+    let sunflowerElements = [];
+    if (smallSunflowersGroup) {
+        sunflowerElements = Array.from(smallSunflowersGroup.querySelectorAll('image'));
+        // Shuffle to get random order
+        const shuffled = [...sunflowerElements].sort(() => Math.random() - 0.5);
+        
+        sunflowerElements.forEach(el => {
+            // Set styles for pop-up animation
+            el.style.transformOrigin = 'center bottom';
+            el.style.transformBox = 'fill-box';
+            el.style.transition = 'transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s';
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0)';
+            
+            // Assign order
+            el.dataset.order = shuffled.indexOf(el);
+        });
+    }
+
     // Default demo content to use if encryption fails (for testing/demo only)
     // In production, you would remove this fallback or keep it empty.
     const demoContent = [
@@ -216,11 +237,34 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 1. Grass grows first (0% to 20%)
         const grass = document.getElementById('grass');
+        const smallSunflowers = document.getElementById('small-sunflowers');
         let grassScale = 0;
         if (progress > 0) {
             grassScale = Math.min(progress * 5, 1);
         }
         grass.style.transform = `scale(1, ${grassScale})`;
+        
+        if (smallSunflowers) {
+            // Scale the group with the grass
+            smallSunflowers.style.transform = `scale(${grassScale})`;
+            
+            const totalFlowers = sunflowerElements.length;
+            
+            sunflowerElements.forEach((flower) => {
+                const order = parseInt(flower.dataset.order);
+                // Map progress (0 to 1) to the number of flowers.
+                // Threshold based on order.
+                const threshold = (order + 1) / (totalFlowers + 1);
+                
+                if (progress >= threshold) {
+                    flower.style.opacity = '1';
+                    flower.style.transform = 'scale(1)';
+                } else {
+                    flower.style.opacity = '0';
+                    flower.style.transform = 'scale(0)';
+                }
+            });
+        }
 
         // 2. Stems grow (10% to 50%)
         const stems = document.querySelectorAll('.stem');
