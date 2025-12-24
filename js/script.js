@@ -313,6 +313,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function processImageUrl(url) {
+        if (!url) return '';
+        // Check for Google Drive links
+        if (url.includes('drive.google.com')) {
+            // Try to extract the ID
+            // Matches /d/FILE_ID or id=FILE_ID
+            const idMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+            if (idMatch && idMatch[1]) {
+                // Use thumbnail endpoint which is more reliable for images (avoids virus scan warnings on large files)
+                // sz=w1000 requests a width of 1000px
+                return `https://drive.google.com/thumbnail?id=${idMatch[1]}&sz=w1000`;
+            }
+        }
+        return url;
+    }
+
     function createFace(data, side) {
         const div = document.createElement('div');
         div.classList.add(side);
@@ -342,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (data.image) {
                 const img = document.createElement('img');
-                img.src = data.image;
+                img.src = processImageUrl(data.image);
                 div.appendChild(img);
             }
             if (data.text) {
